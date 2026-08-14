@@ -306,6 +306,18 @@ For major implementation steps, also include when giving the ## 21 report — `S
   - `store/toastStore` — only once global toast infrastructure is actually built.
   - `store/alertStore` — only once a genuine global alert-dialog system is actually built.
 
+## 22e. Route/screen architecture (approved baseline)
+
+`src/app` decides navigation only (URL, guard, transition, modal presentation) — route files stay thin, importing/rendering a screen from `src/features/<name>/`. `src/features` decides ownership and implementation. The two trees are allowed to diverge — a route's group doesn't have to match its feature name (e.g. Orders screens are routed under `(account)/orders/` but owned by `features/orders/`, not `features/account/`).
+
+**Feature screen placement (all-or-nothing rule):** if a feature has exactly one route-level screen, it stays flat at the feature root (`HomeScreen.tsx` + `.styles.ts`). The moment a feature has 2+ route-level screens, **all** of that feature's route-level screens move into `screens/` — never mix one flat screen with others inside `screens/` in the same feature. Applying this now to the Step 10 design: `auth` (login+otp), `categories` (tab grid + category/[id]), `product` (details+image-viewer), `cart` (cart+coupons), `prescription`, `orders`, and `profile` (hub + all sub-screens) all use `screens/`. `home`, `search`, and `notifications` stay flat (one screen each).
+
+**Route grouping:** a parenthesized `src/app` group requires a real shared layout, guard, or navigation behavior — never created for code organization alone. Approved groups: `(auth)` (unguarded, is itself the redirect target), `(tabs)` (shared tab bar), `(cart)` (guest-or-auth guard, mirrors old app's proven rule for cart/coupons), `(prescription)` (auth guard, self-contained flow), `(account)` (auth guard; replaces old app's `profile/` naming, which collided with the `(tabs)/profile.tsx` hub screen). `category/`, `product/`, and `search/` stay **top-level and ungrouped** — no `(shop)` wrapper; group them later only if a concrete shared guard/layout emerges, not preemptively. `notifications/` stays ungrouped (one screen, no benefit from parens).
+
+**Unresolved — do not finalize:** the `(checkout)`/`order-success` route group is **not locked in**. Real ownership of checkout/payment/`(prescription)/payment.tsx` needs inspecting the actual implementation before that group's shape is decided — treat as open until the Checkout step investigates it directly.
+
+**Screen ↔ component ownership:** SCREEN = route-level feature UI. FEATURE COMPONENT = UI used only within one feature (its own `components/`, created only on a real second-use or complexity reason). GLOBAL COMPONENT/HOOK = clearly app-wide (`src/components/`, `src/hooks/`) — may be added immediately per §22a's "app-wide responsibility" clause, no need to wait for a second consumer.
+
 ## 23. Final principle
 
 Preserve CareSure's approved UI and behavior while improving the underlying engineering.

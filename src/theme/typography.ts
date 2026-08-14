@@ -1,13 +1,18 @@
-import { TextStyle } from "react-native";
+import { Platform, TextStyle } from "react-native";
 
-// Reserved for a custom family (e.g. Inter) once font loading is wired up in
-// a later step. `undefined` falls back to the platform default (San Francisco
-// on iOS, Roboto on Android) so typography is usable today without it.
+// Android renders Inter (loaded via useAppFonts); iOS stays on the native SF
+// Pro system font (undefined = platform default) and never needs these
+// files loaded. Each role maps to its own weight-specific Inter family —
+// Android has no single variable-weight family, one static file per weight.
+const androidFamily = (name: string): TextStyle["fontFamily"] =>
+  Platform.OS === "android" ? name : undefined;
+
 export const fontFamily = {
-  regular: undefined,
-  medium: undefined,
-  semibold: undefined,
-  bold: undefined,
+  regular: androidFamily("Inter_400Regular"),
+  medium: androidFamily("Inter_500Medium"),
+  semibold: androidFamily("Inter_600SemiBold"),
+  bold: androidFamily("Inter_700Bold"),
+  extrabold: androidFamily("Inter_800ExtraBold"),
 } as const satisfies Record<string, TextStyle["fontFamily"]>;
 
 export const fontWeight = {
@@ -23,7 +28,7 @@ export const typography = {
     fontSize: 28,
     lineHeight: 36,
     fontWeight: fontWeight.extrabold,
-    fontFamily: fontFamily.bold,
+    fontFamily: fontFamily.extrabold,
   } satisfies TextStyle,
   h2: {
     fontSize: 22,

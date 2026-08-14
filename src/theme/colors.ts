@@ -27,6 +27,9 @@ export const colors = {
     warning: "#D97706",
     error: "#DC2626",
     info: "#2563EB",
+    // Lighter than `error` on purpose — reserved for inline field-level
+    // validation (input borders/messages), distinct from app-wide errors.
+    fieldError: "#EF4444",
   },
 
   disabled: {
@@ -43,6 +46,8 @@ export const colors = {
   gradients: {
     upload: ["#CB391C", "#F88004"],
   },
+  // Auth background tile colors — cycled behind the medicine photos.
+  pastels: ["#FFEBEB", "#EBF5FF", "#F5EBFF", "#EBFFFF", "#FFF9EB", "#F2FFEB"],
 
   white: "#FFFFFF",
   black: "#000000",
