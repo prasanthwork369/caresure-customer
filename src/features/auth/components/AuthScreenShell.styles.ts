@@ -1,6 +1,13 @@
 import { StyleSheet } from "react-native";
 
-import { colors, fontWeight, radius, spacing, typography } from "@/theme";
+import {
+  colors,
+  fontFamily,
+  fontWeight,
+  radius,
+  spacing,
+  typography,
+} from "@/theme";
 
 export const styles = StyleSheet.create({
   root: {
@@ -33,6 +40,7 @@ export const styles = StyleSheet.create({
   skipText: {
     ...typography.small,
     fontWeight: fontWeight.bold,
+    fontFamily: fontFamily.bold,
     color: colors.brand.primary,
   },
   container: {

@@ -1,10 +1,10 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
-import { colors, fontWeight, radius, spacing, typography } from "@/theme";
+import { colors, fontFamily, fontWeight, radius, spacing, typography } from "@/theme";
 
 export const styles = StyleSheet.create({
   title: {
-    ...typography.h1,
+    ...typography.authTitle,
     color: colors.text.primary,
     textAlign: "center",
     marginBottom: spacing[6],
@@ -22,8 +22,12 @@ export const styles = StyleSheet.create({
   inputWrapIdle: { borderColor: colors.border.default },
   inputWrapFocused: { borderColor: colors.brand.primary },
   inputWrapError: { borderColor: colors.status.fieldError },
+  // No typography role matches this Figma-specific prefix size (17px) —
+  // single use, so only the weight/family primitives are reused.
   prefix: {
-    ...typography.body,
+    fontSize: 17,
+    fontWeight: fontWeight.medium,
+    fontFamily: fontFamily.medium,
     color: colors.text.primary,
   },
   divider: {
@@ -31,16 +35,19 @@ export const styles = StyleSheet.create({
     height: 20,
     backgroundColor: colors.border.divider,
   },
+  // Figma input text is 15px — one off from `typography.body` (14) — single
+  // use, so only the weight/family primitives are reused.
   input: {
     flex: 1,
     height: "100%",
     padding: 0,
-    ...typography.body,
-    fontFamily: Platform.OS === "android" ? "Inter_400Regular" : undefined,
+    fontSize: 15,
+    fontWeight: fontWeight.regular,
+    fontFamily: fontFamily.regular,
     color: colors.text.primary,
   },
   error: {
-    ...typography.caption,
+    ...typography.small,
     color: colors.status.fieldError,
     marginTop: spacing[1],
     marginBottom: spacing[1],
@@ -59,8 +66,7 @@ export const styles = StyleSheet.create({
     opacity: 0.6,
   },
   submitButtonText: {
-    ...typography.subtitle,
-    fontWeight: fontWeight.bold,
+    ...typography.title,
     color: colors.text.inverse,
   },
 });

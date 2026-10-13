@@ -2,11 +2,12 @@ import { BlurView } from "expo-blur";
 import type { BottomTabBarProps } from "expo-router/js-tabs";
 import { Platform, StyleSheet, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { FabButton } from "./FabButton";
 import { PillTabItem } from "./PillTabItem";
+import { tabBarVisible } from "./tabBarVisibility";
 import { tabConfigs, type TabConfig } from "./tabConfig";
 import { BAR_BOTTOM_GAP, BAR_HEIGHT, styles } from "./TabBar.styles";
 import { useTabBarAnimation } from "./useTabBarAnimation";
@@ -40,14 +41,27 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
       onNavigateToPillTab: navigateToPillTab,
     });
 
+  const barHeight = BAR_HEIGHT + insets.bottom + BAR_BOTTOM_GAP;
+
+  // Screens (Home) drive `tabBarVisible` from their own scroll handler on
+  // the UI thread — this only reads it, so hide/show stays perfectly synced
+  // with scroll with no cross-tree prop plumbing.
+  const hideOnScrollStyle = useAnimatedStyle(() => ({
+    opacity: tabBarVisible.value,
+    transform: [
+      { translateY: (1 - tabBarVisible.value) * (barHeight + 20) },
+    ],
+  }));
+
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         {
-          height: BAR_HEIGHT + insets.bottom + BAR_BOTTOM_GAP,
+          height: barHeight,
           paddingBottom: insets.bottom + BAR_BOTTOM_GAP,
         },
+        hideOnScrollStyle,
       ]}
       pointerEvents="box-none"
     >
@@ -94,6 +108,6 @@ export function TabBar({ state, navigation }: BottomTabBarProps) {
           }
         }}
       />
-    </View>
+    </Animated.View>
   );
 }

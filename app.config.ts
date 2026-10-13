@@ -2,7 +2,7 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 const appEnv = process.env.EXPO_PUBLIC_APP_ENV ?? "development";
 const apiBaseUrl =
-  process.env.EXPO_PUBLIC_API_BASE_URL ?? "https://api.caresure.dev";
+  process.env.EXPO_PUBLIC_API_BASE_URL ?? "https://qa-csapi.codeneptune.com";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,

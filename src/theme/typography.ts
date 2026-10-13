@@ -36,6 +36,14 @@ export const typography = {
     fontWeight: fontWeight.bold,
     fontFamily: fontFamily.bold,
   } satisfies TextStyle,
+  // Figma-approved auth screen headline (Login/OTP titles) — one rung
+  // between h1 and h2 that doesn't fit either, shared by both screens.
+  authTitle: {
+    fontSize: 26,
+    lineHeight: 34,
+    fontWeight: fontWeight.extrabold,
+    fontFamily: fontFamily.extrabold,
+  } satisfies TextStyle,
   title: {
     fontSize: 16,
     lineHeight: 22,

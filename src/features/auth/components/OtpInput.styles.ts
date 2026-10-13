@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 
-import { colors, fontWeight, radius, spacing, typography } from "@/theme";
+import { colors, fontFamily, fontWeight, radius, spacing, typography } from "@/theme";
 
 export const styles = StyleSheet.create({
   boxRow: {
@@ -25,10 +25,13 @@ export const styles = StyleSheet.create({
   boxAccent: { borderColor: colors.brand.primary },
   boxError: { borderColor: colors.status.fieldError },
   boxFillActive: { backgroundColor: colors.overlay.activePill },
+  // Box-fitted digit glyph (24px) tied to otpBox's own geometry — no
+  // reusable typography role fits a single-purpose size like this.
   otpDigit: {
     fontSize: 24,
     lineHeight: Platform.OS === "android" ? 24 : undefined,
     fontWeight: fontWeight.bold,
+    fontFamily: fontFamily.bold,
     color: colors.text.primary,
     textAlign: "center",
     includeFontPadding: false,
@@ -45,7 +48,7 @@ export const styles = StyleSheet.create({
     opacity: 0,
   },
   error: {
-    ...typography.caption,
+    ...typography.small,
     color: colors.status.fieldError,
     textAlign: "center",
     marginBottom: spacing[2],
@@ -59,13 +62,17 @@ export const styles = StyleSheet.create({
     ...typography.small,
     color: colors.text.secondary,
   },
+  // Nested Text inherits fontSize/lineHeight from resendText (typography.small)
+  // — only the bold variant's weight/family need overriding here.
   resendHighlight: {
-    color: colors.brand.primary,
     fontWeight: fontWeight.bold,
+    fontFamily: fontFamily.bold,
+    color: colors.brand.primary,
   },
   resendLink: {
     ...typography.small,
     fontWeight: fontWeight.bold,
+    fontFamily: fontFamily.bold,
     color: colors.brand.primary,
   },
 });
